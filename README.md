@@ -58,7 +58,7 @@ The model that the database is built up upon is explained below. It consists of 
 When the user is using the system and looking at stories, comments, jobs, Ask HNs and even polls, they are all related to the same data model: Item. They're identified by their ids, which are unique integers, and they live under `/item/<id>`.
 [All Item properties and examples can be seen here](https://github.com/KIMB0/lsd-exam-report/blob/master/item-data-model.md).
 
-### User
+#### User
 
 The second data model is the User. They can be found under the following route: `/user/<id>`. Like with items, it’s only possible to retrieve users that are active in the system.
 [All User properties and examples can be seen here](https://github.com/KIMB0/lsd-exam-report/blob/master/user-data-model.md).
