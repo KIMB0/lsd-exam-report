@@ -178,7 +178,7 @@ To break it down, we had three major problems with our own system throughout the
 The first error we encountered is one we noticed after the earlier mentioned [error chart](http://138.68.91.198/error_chart.svg) was revealed to us. It clearly states that the simulation script sending items into our system encountered an error called “ReadTimeout”. According to other developers<sup>7</sup>, this means that a timeout occurs while reading data. It has been hard to troubleshoot as our logs doesn’t show a lot, but we suspect that it’s due to a timeout set on the simulator sending items. If the simulator had a timeout, and our server was under pressure handling too many requests at the same time, it might not send an “ok” response back to the simulator in time. The error chart states that we lost more than half a million items this way.
 Troubleshooting this was difficult when there was no trace of the error on our server side. Our latest idea was to try and change our code, so that the insertion of Items would work asynchronous instead of synchronous. The idea was that if our server could set aside its own thread every time a new item comes in, no items would have to wait in a queue, thereby hopefully eliminating the timeout issue. Unfortunately, we didn’t have enough time to implement and test this theory.
 
-The second error was revealed to us when the server suddenly crashed and couldn’t be started again. We found out that it was the target application folder that duplicated itself infinitely, until the built War-file<sup>10</sup> was so big that it reached the maximum possible size and crashed the server. More details on this can be found in our [Post Mortem Analysis](https://github.com/KIMB0/LSD_frontend/blob/master/Documents/Post_Mrtem_Analysis_GroupE.pdf).
+The second error was revealed to us when the server suddenly crashed and couldn’t be started again. We found out that it was the target application folder that duplicated itself infinitely, until the built War-file<sup>8</sup> was so big that it reached the maximum possible size and crashed the server. More details on this can be found in our [Post Mortem Analysis](https://github.com/KIMB0/LSD_frontend/blob/master/Documents/Post_Mrtem_Analysis_GroupE.pdf).
 
 The third major error we encountered was the resource usage of our database. As our dataset grew, MongoDB’s built-in data queries had a hard time keeping up with the pressure of the many items inserted per minute. This led to a CPU usage of 200% by MongoDB. This caused instability, slow operations and crashes serverwide. We fixed this problem by isolating the MongoDB instance, and by changing Mongo’s indexing pattern. More details on this can be found in [our blog entry on the subject](https://github.com/KIMB0/ufo-blog-entry/blob/master/README.md).
 
@@ -198,8 +198,8 @@ As operators the idea was good, but the concept was not brought to its fullest. 
 ## Conclusion
 
 As a conclusion to the project, it might had been a good idea to start by digging into some documentation and searching around for information regarding the different tools we were going to be using. This includes all from MongoDB as database choice, Glassfish as application server, Java JAX-RS as a REST API, and Prometheus as monitoring tool. We should’ve been more educated in MongoDB to avoid the complications we experienced throughout the project. Also, we should’ve dug more into JAX-RS as a REST API, when it comes to the high amount of traffic we would be receiving. We’ve suspected that because Java has to convert the JSON format into an object and back again, it would take longer time than using javascript as instance, which is the name object notation.
-Glassfish as an application server is overdone, when it comes to small applications like this. We could’ve considered other minimal application servers like Apache<sup>11</sup>, Tomcat<sup>12</sup> or Jetty<sup>13</sup>. In this case they would, probably, have suited our needs better.
-The monitoring of the system was a great idea, but the Prometheus tool, like Glassfish, was a little overkill. It was only a single application that has to be monitored and in that case, this could’ve been done differently. As an alternative we could’ve used Monit<sup>8</sup>, which is a lightweight process supervision tool, that likely would’ve done the necessary. We are currently running Monit on the separate MongoDB server.
+Glassfish as an application server is overdone, when it comes to small applications like this. We could’ve considered other minimal application servers like Apache<sup>9</sup>, Tomcat<sup>10</sup> or Jetty<sup>11</sup>. In this case they would, probably, have suited our needs better.
+The monitoring of the system was a great idea, but the Prometheus tool, like Glassfish, was a little overkill. It was only a single application that has to be monitored and in that case, this could’ve been done differently. As an alternative we could’ve used Monit<sup>12</sup>, which is a lightweight process supervision tool, that likely would’ve done the necessary. We are currently running Monit on the separate MongoDB server.
 
 Apart from the more technical approaches; we didn’t follow any of the traditionally used development management frameworks like Scrum, Unified-Process or Extreme-Programming. What we did was we used Github as our backlog and then took it from there. A project member assigned himself to an issue, to keep track of who was doing what. We don’t believe a lot of engineers use this approach, but for us this worked quite well. It was nice to have everything at one place, instead of using multiple tools for the same purpose; thereby keeping the project on track.
 
@@ -212,9 +212,8 @@ Apart from the more technical approaches; we didn’t follow any of the traditio
 5. https://jasmine.github.io/
 6. https://karma-runner.github.io/1.0/index.html 
 7. https://stackoverflow.com/questions/3069382/what-is-the-difference-between-connection-and-read-timeout-for-sockets
-8. https://en.wikipedia.org/wiki/Monit
-9. https://github.com/arnaudsj/monit
-10. https://en.wikipedia.org/wiki/WAR_(file_format)
-11. https://httpd.apache.org/
-12. http://tomcat.apache.org/
-13. https://www.eclipse.org/jetty/
+8. https://en.wikipedia.org/wiki/WAR_(file_format)
+9. https://httpd.apache.org/
+10. http://tomcat.apache.org/
+11. https://www.eclipse.org/jetty/
+12. https://en.wikipedia.org/wiki/Monit
