@@ -36,7 +36,9 @@ The system was to be built as a web application. The backend should be built as 
 
 The above is also the major functions that are the most important part of the system.
 The RESTful API needed to be servicing external programs. It had to provide stories, comments, jobs, Ask HN and polls. Everything was built up as an item, and an item were to be identified by its id, which is an unique integer. The Item ids should then live under `/item/<id>`.
-Nonfunctional requirements:
+
+##### Nonfunctional requirements
+
 The system needed to have an uptime of more than 95% and should not lose any content. Throughout a period of time, a simulator would continuously be posting items to our service.
 
 ### 1.2. Development process
